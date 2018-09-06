@@ -185,9 +185,18 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\Workout\ExercisesController.cs" />
+    <Compile Include="Controllers\Workout\RoutinesController.cs" />
+    <Compile Include="Controllers\Workout\SessionsController.cs" />
+    <Compile Include="Controllers\Workout\SetsController.cs" />
+    <Compile Include="DAL\WorkoutContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Workout\Routine.cs" />
+    <Compile Include="Models\Workout\Exercise.cs" />
+    <Compile Include="Models\Workout\Session.cs" />
+    <Compile Include="Models\Workout\Set.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +253,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
