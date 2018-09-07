@@ -35,6 +35,7 @@ Once deployed, instructions on how to replicate will be added.
 * [Entity Framework](https://docs.microsoft.com/en-us/ef/) - Used generating Code First Database
 * [Visual Studio](https://visualstudio.microsoft.com/vs/) - IDE for developing code
 * [Azure](https://azure.microsoft.com/en-us/) - Cloud deployment
+* [Postman](https://www.getpostman.com/) - Used for API HTTP Request testing 
 
 ## Contributing
 
@@ -52,4 +53,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* [PurpleBooth](https://github.com/PurpleBooth) templates for [README](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) and [CONTRIBUTING] (https://gist.github.com/PurpleBooth/b24679402957c63ec426) files.
+* [PurpleBooth](https://github.com/PurpleBooth) templates for [README](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) and [CONTRIBUTING](https://gist.github.com/PurpleBooth/b24679402957c63ec426) files.

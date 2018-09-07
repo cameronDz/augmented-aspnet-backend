@@ -13,10 +13,12 @@ namespace augmented_aspnet_backend.Models.Workout
         [Display(Name = "Routine Id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoutineId { get; set; }
-        [Display(Name = "Session Id")]
-        public int SessionId { get; set; }
         [Display(Name = "Exercise Id")]
         public int ExerciseId { get; set; }
+        [Display(Name = "Session Id")]
+        public int SessionId { get; set; }
+        [Display(Name = "Routine Name")]
+        public string Name { get; set; }
         [Display(Name = "Routine Comment")]
         public string Comment { get; set; }
     }

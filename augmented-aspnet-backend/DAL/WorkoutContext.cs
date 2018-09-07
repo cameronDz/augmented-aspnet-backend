@@ -17,5 +17,7 @@ namespace augmented_aspnet_backend.DAL
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Routine> Rountines { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<ExerciseType> ExerciseTypes { get; set; }
+        public DbSet<RoutineSet> RoutineSets { get; set; }
     }
 }

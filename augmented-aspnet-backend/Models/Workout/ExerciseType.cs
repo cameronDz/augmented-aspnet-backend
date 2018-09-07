@@ -7,17 +7,13 @@ using System.Web;
 
 namespace augmented_aspnet_backend.Models.Workout
 {
-    public class Exercise
+    public class ExerciseType
     {
         [Key]
-        [Display(Name = "Exercise Id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ExerciseId { get; set; }
         [Display(Name = "Exercise Type Id")]
-        public int TypeId { get; set; }
-        [Display(Name = "Exercise Name")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ExercisTypeId { get; set; }
+        [Display(Name = "Exercise Type Name")]
         public string Name { get; set; }
-        [Display(Name = "Exercise Description")]
-        public string Description { get; set; }
     }
 }
