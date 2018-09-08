@@ -18,16 +18,16 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         private WorkoutContext db = new WorkoutContext();
 
         // GET: api/Routines
-        public IQueryable<Routine> GetRountines()
+        public IQueryable<Routine> GetRoutines()
         {
-            return db.Rountines;
+            return db.Routines;
         }
 
         // GET: api/Routines/5
         [ResponseType(typeof(Routine))]
         public IHttpActionResult GetRoutine(int id)
         {
-            Routine routine = db.Rountines.Find(id);
+            Routine routine = db.Routines.Find(id);
             if (routine == null)
             {
                 return NotFound();
@@ -80,7 +80,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
                 return BadRequest(ModelState);
             }
 
-            db.Rountines.Add(routine);
+            db.Routines.Add(routine);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = routine.RoutineId }, routine);
@@ -90,13 +90,13 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         [ResponseType(typeof(Routine))]
         public IHttpActionResult DeleteRoutine(int id)
         {
-            Routine routine = db.Rountines.Find(id);
+            Routine routine = db.Routines.Find(id);
             if (routine == null)
             {
                 return NotFound();
             }
 
-            db.Rountines.Remove(routine);
+            db.Routines.Remove(routine);
             db.SaveChanges();
 
             return Ok(routine);
@@ -113,7 +113,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
 
         private bool RoutineExists(int id)
         {
-            return db.Rountines.Count(e => e.RoutineId == id) > 0;
+            return db.Routines.Count(e => e.RoutineId == id) > 0;
         }
     }
 }

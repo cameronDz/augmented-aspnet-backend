@@ -17,6 +17,8 @@ namespace AugmentedAspnetBackend.Models.Workout
         public int Reps { get; set; }
         [Display(Name = "Set Seconds")]
         public int Seconds { get; set; }
+        [Display(Name = "Set Distance")]
+        public double Distance { get; set; }
         [Display(Name = "Set Weight")]
         public double Weight { get; set; }
         [Display(Name = "Set Comment")]

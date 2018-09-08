@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -11,13 +12,19 @@ namespace AugmentedAspnetBackend.DAL
     {
         public WorkoutContext() : base("WorkoutContext")
         {
+            Database.SetInitializer<WorkoutContext>(new CreateDatabaseIfNotExists<WorkoutContext>());
         }
 
         public DbSet<Set> Sets { get; set; }
         public DbSet<Session> Sessions { get; set; }
-        public DbSet<Routine> Rountines { get; set; }
+        public DbSet<Routine> Routines { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
         public DbSet<RoutineSet> RoutineSets { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
     }
 }
