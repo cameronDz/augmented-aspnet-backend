@@ -14,7 +14,6 @@ using AugmentedAspnetBackend.Models.Workout;
 
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ExercisesController : ApiController
     {
         private WorkoutContext db = new WorkoutContext();
