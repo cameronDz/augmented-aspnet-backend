@@ -7,12 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using AugmentedAspnetBackend.DAL;
 using AugmentedAspnetBackend.Models.Workout;
 
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ExercisesController : ApiController
     {
         private WorkoutContext db = new WorkoutContext();
