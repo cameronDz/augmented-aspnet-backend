@@ -32,7 +32,6 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 return NotFound();
             }
-
             return Ok(session);
         }
 

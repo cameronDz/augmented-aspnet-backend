@@ -50,6 +50,12 @@ namespace AugmentedAspnetBackend.Controllers.Workout
                 return BadRequest();
             }
 
+            exerciseType.Name = exerciseType.Name.ToUpper();
+            if (ExerciseTypeNameAlreadyRegistered(exerciseType.Name))
+            {
+                return BadRequest("Exercise Type already exists");
+            }
+
             db.Entry(exerciseType).State = EntityState.Modified;
 
             try
@@ -79,6 +85,12 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 return BadRequest(ModelState);
             }
+            
+            exerciseType.Name = exerciseType.Name.ToUpper();
+            if (ExerciseTypeNameAlreadyRegistered(exerciseType.Name))
+            {
+                return BadRequest("Exercise Type already exists");
+            }
 
             db.ExerciseTypes.Add(exerciseType);
             db.SaveChanges();
@@ -100,6 +112,18 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             db.SaveChanges();
 
             return Ok(exerciseType);
+        }
+
+        private bool ExerciseTypeNameAlreadyRegistered(string name)
+        {
+            foreach (ExerciseType e in db.ExerciseTypes)
+            {
+                if (e.Name.Equals(name))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         protected override void Dispose(bool disposing)

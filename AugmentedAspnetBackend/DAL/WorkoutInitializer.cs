@@ -67,13 +67,13 @@ namespace AugmentedAspnetBackend.DAL
         {
             var exercises = new List<Exercise>
             {
-                new Exercise { Name = "Barbell Bench Press", Description = "Standard Barbell Benchpress.", TypeId = 1 },
-                new Exercise { Name = "Snatch Barbell Low Pull", Description = "Lower pull for Olympic Barbell Snatch.", TypeId = 1 },
-                new Exercise { Name = "Dumbbell Standing Hammer Curl", Description = "Standing, synchronized dumbbell hammer curls.", TypeId = 2 },
-                new Exercise { Name = "Treadmill", Description = "Indoor treadmill.", TypeId = 3 },
-                new Exercise { Name = "Barbell Front Squat", Description = "Standard Barbell Front Squat.", TypeId = 1 },
-                new Exercise { Name = "Full Barbell Clean", Description = "Full olympic barbell clean.", TypeId = 1 },
-                new Exercise { Name = "Barbell Drag Curls", Description = "Standard Barbell Curls.", TypeId = 1 }
+                new Exercise { Name = "BARBELL BENCH PRESS", Description = "Standard Barbell Benchpress.", TypeId = 1 },
+                new Exercise { Name = "SNATCH BARBELL LOW PULL", Description = "Lower pull for Olympic Barbell Snatch.", TypeId = 1 },
+                new Exercise { Name = "DUMBBELL STANDING HAMMER CURL", Description = "Standing, synchronized dumbbell hammer curls.", TypeId = 2 },
+                new Exercise { Name = "TREADMILL", Description = "Indoor treadmill.", TypeId = 3 },
+                new Exercise { Name = "BARBELL FRONT SQUAT", Description = "Standard Barbell Front Squat.", TypeId = 1 },
+                new Exercise { Name = "FULL BARBELL CLEAN", Description = "Full olympic barbell clean.", TypeId = 1 },
+                new Exercise { Name = "BARBELL DRAG CURL", Description = "Standard Barbell Curls.", TypeId = 1 }
              };
             return exercises;
         }
@@ -82,9 +82,10 @@ namespace AugmentedAspnetBackend.DAL
         {
             var exerciseTypese = new List<ExerciseType>
             {
-                new ExerciseType { Name = "Barbell Lift" },
-                new ExerciseType { Name = "Dumbbell Lift" },
-                new ExerciseType { Name = "Cardio" }
+                new ExerciseType { Name = "DUMBBELL LIFT" },
+                new ExerciseType { Name = "DUMBBELL LIFT" },
+                new ExerciseType { Name = "CARDIO" },
+                new ExerciseType { Name = "STRETCHING" }
             };
             return exerciseTypese;
         }
