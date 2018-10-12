@@ -1,4 +1,5 @@
 ﻿using AugmentedAspnetBackend.DAL;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,6 +22,7 @@ namespace AugmentedAspnetBackend
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer(new WorkoutInitializer());
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }
