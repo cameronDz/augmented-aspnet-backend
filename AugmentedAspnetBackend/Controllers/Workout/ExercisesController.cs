@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
@@ -17,6 +18,14 @@ namespace AugmentedAspnetBackend.Controllers.Workout
     public class ExercisesController : ApiController
     {
         private WorkoutContext db = new WorkoutContext();
+
+        [HttpOptions]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult OptionsExercises()
+        {
+            HttpContext.Current.Response.AppendHeader("Allow", "GET,POST,OPTIONS");
+            return Ok();
+        }
 
         // GET: api/Exercises
         public IQueryable<Exercise> GetExercises()
