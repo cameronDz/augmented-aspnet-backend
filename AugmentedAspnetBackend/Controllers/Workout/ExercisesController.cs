@@ -12,6 +12,7 @@ using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using AugmentedAspnetBackend.DAL;
 using AugmentedAspnetBackend.Models.Workout;
+using Newtonsoft.Json.Linq;
 
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
@@ -86,6 +87,34 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // POST: api/Exercises
+        [ResponseType(typeof(Exercise))]
+        public IHttpActionResult PostExercise([FromBody]string text)
+        {
+            JObject json = JObject.Parse(text);
+            Exercise exercise = new Exercise();
+            try
+            {
+                exercise.Name = (string)json.GetValue("name");
+                exercise.Description = (string)json.GetValue("description");
+                exercise.TypeId = (int)json.GetValue("typeId");
+            } catch (Exception)
+            {
+                return BadRequest("Could not parse JSON.");
+            }
+
+            exercise.Name = exercise.Name.ToUpper();
+
+            if (ExerciseNameAlreadyRegistered(exercise.Name))
+            {
+                return BadRequest("Exercise already exists");
+            }
+            db.Exercises.Add(exercise);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = exercise.ExerciseId }, exercise);
         }
 
         // POST: api/Exercises
