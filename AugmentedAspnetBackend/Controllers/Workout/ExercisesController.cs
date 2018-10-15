@@ -24,8 +24,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         [ResponseType(typeof(void))]
         public IHttpActionResult OptionsExercises()
         {
-            HttpContext.Current.Response.AppendHeader("Allow", "GET,POST,OPTIONS");
-            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "*");
+            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "Content-Type");
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
             return Ok();
         }
