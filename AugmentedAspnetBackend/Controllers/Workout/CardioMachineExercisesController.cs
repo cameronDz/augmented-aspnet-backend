@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AugmentedAspnetBackend.DAL;
@@ -18,6 +19,15 @@ namespace AugmentedAspnetBackend.Controllers.Workout
     public class CardioMachineExercisesController : ApiController
     {
         private WorkoutContext db = new WorkoutContext();
+
+        [HttpOptions]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult OptionsExercises()
+        {
+            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "Content-Type");
+            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+            return Ok();
+        }
 
         // GET: api/CardioMachineExercises
         public IQueryable<CardioMachineExercise> GetCardioMachineExercises()
