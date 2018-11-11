@@ -17,7 +17,7 @@ namespace AugmentedAspnetBackend
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "v0.2/api/{controller}/{id}",
+                routeTemplate: "v0.3/api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

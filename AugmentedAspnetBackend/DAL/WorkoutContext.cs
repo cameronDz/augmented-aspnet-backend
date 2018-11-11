@@ -12,7 +12,7 @@ namespace AugmentedAspnetBackend.DAL
     {
         public WorkoutContext() : base("WorkoutContext")
         {
-            Database.SetInitializer<WorkoutContext>(new CreateDatabaseIfNotExists<WorkoutContext>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<WorkoutContext>());
         }
 
         public DbSet<Set> Sets { get; set; }
@@ -22,9 +22,12 @@ namespace AugmentedAspnetBackend.DAL
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
         public DbSet<RoutineSet> RoutineSets { get; set; }
 
+        public DbSet<CardioMachineExercise> CardioMachineExercises { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
     }
 }

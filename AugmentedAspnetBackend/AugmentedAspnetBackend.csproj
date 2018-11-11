@@ -192,6 +192,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SessionViewModelController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\Workout\CardioMachineExercisesController.cs" />
     <Compile Include="Controllers\Workout\ExercisesController.cs" />
     <Compile Include="Controllers\Workout\ExerciseTypesController.cs" />
     <Compile Include="Controllers\Workout\RoutinesController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Workout\CardioMachineExercise.cs" />
     <Compile Include="Models\Workout\ExerciseType.cs" />
     <Compile Include="Models\Workout\Routine.cs" />
     <Compile Include="Models\Workout\Exercise.cs" />
