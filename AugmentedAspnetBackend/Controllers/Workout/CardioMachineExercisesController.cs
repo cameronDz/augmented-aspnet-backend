@@ -32,7 +32,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         // GET: api/CardioMachineExercises
         public IQueryable<CardioMachineExercise> GetCardioMachineExercises()
         {
-            return db.CardioMachineExercises;
+            return db.CardioMachineExercises.OrderBy(c => c.StartTime);
         }
 
         // GET: api/CardioMachineExercises?startDate=mmDDyyyy&endDate=mmDDyyy
@@ -42,7 +42,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             String format = "MMddyyyy";
             DateTime startTime = DateTime.ParseExact(startDate, format, provider);
             DateTime endTime = DateTime.ParseExact(endDate, format, provider);
-            return db.CardioMachineExercises.Where(c => c.StartTime >= startTime && c.StartTime <= endTime);
+            return db.CardioMachineExercises.Where(c => c.StartTime >= startTime && c.StartTime <= endTime).OrderBy(c => c.StartTime);
         }
 
         // GET: api/CardioMachineExercises/5
