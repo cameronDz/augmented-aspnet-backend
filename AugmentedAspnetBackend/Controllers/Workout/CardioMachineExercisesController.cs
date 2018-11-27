@@ -8,11 +8,16 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using AugmentedAspnetBackend.DAL;
 using AugmentedAspnetBackend.Models.Workout;
+using ActionNameAttribute = System.Web.Http.ActionNameAttribute;
+using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using HttpOptionsAttribute = System.Web.Http.HttpOptionsAttribute;
 
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
@@ -122,6 +127,62 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             db.SaveChanges();
 
             return Ok(cardioMachineExercise);
+        }
+
+        [HttpGet]
+        public FileResult DownloadCardioMachineExercieCsv(String csv)
+        {
+            byte[] csvData = FullCardioMachineExerciseListCsv();
+            String fileName = CsvCardioMachineExerciseFileName();
+            var result = new FileContentResult(csvData, "text/csv");
+            result.FileDownloadName = fileName;
+            return result;
+        }
+
+        private byte[] FullCardioMachineExerciseListCsv()
+        {
+            StringBuilder csv = new StringBuilder();
+            IEnumerable<CardioMachineExercise> list = db.CardioMachineExercises.OrderBy(c => c.StartTime);
+            csv = WriteLineInCsvStringBuilder(csv,
+                    "Id",
+                    "Machine Type",
+                    "Start Time",
+                    "Duration Seconds",
+                    "Distance Miles",
+                    "User Name",
+                    "Comment");
+            foreach (CardioMachineExercise row in list)
+            {
+                WriteLineInCsvStringBuilder(csv,
+                    row.CardioMachineExerciseId.ToString(),
+                    row.MachineType,
+                    row.StartTime.ToString(),
+                    row.DurationSeconds.ToString(),
+                    row.DistanceMiles.ToString(),
+                    row.UserName,
+                    row.Comment);
+            }
+            var data = Encoding.UTF8.GetBytes(csv.ToString());
+            return data;
+        }
+
+        private StringBuilder WriteLineInCsvStringBuilder(StringBuilder csv, String columnOne, String columnTwo, 
+            String columnThree, String columnFour, String columnFive, String columnSix, String columnSeven)
+        {
+            csv.Append(columnOne).Append(',');
+            csv.Append(columnTwo).Append(',');
+            csv.Append(columnThree).Append(',');
+            csv.Append(columnFour).Append(',');
+            csv.Append(columnFive).Append(',');
+            csv.Append(columnSix).Append(',');
+            csv.Append(columnSeven).Append(',');
+            csv.AppendLine();
+            return csv;
+        }
+
+        private String CsvCardioMachineExerciseFileName()
+        {
+            return "cardioMachineExercise-" + DateTime.Now.ToUniversalTime() + "-GMT.csv";
         }
 
         protected override void Dispose(bool disposing)
