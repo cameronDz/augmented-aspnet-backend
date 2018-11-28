@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 using System.Web.Http;
@@ -130,16 +131,21 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         [HttpGet]
-        public FileResult DownloadCardioMachineExercieCsv(String csv)
+        public HttpResponseMessage DownloadCardioMachineExercieCsv(String csv)
         {
-            byte[] csvData = FullCardioMachineExerciseListCsv();
+            var csvString = FullCardioMachineExerciseListCsv();
             String fileName = CsvCardioMachineExerciseFileName();
-            var result = new FileContentResult(csvData, "text/csv");
-            result.FileDownloadName = fileName;
+            var result = Request.CreateResponse(HttpStatusCode.OK);
+            result.Content = new StringContent(csvString, Encoding.UTF8, "text/csv");
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = fileName
+            };
+
             return result;
         }
 
-        private byte[] FullCardioMachineExerciseListCsv()
+        private string FullCardioMachineExerciseListCsv()
         {
             StringBuilder csv = new StringBuilder();
             IEnumerable<CardioMachineExercise> list = db.CardioMachineExercises.OrderBy(c => c.StartTime);
@@ -162,8 +168,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
                     row.UserName,
                     row.Comment);
             }
-            var data = Encoding.UTF8.GetBytes(csv.ToString());
-            return data;
+            return csv.ToString();
         }
 
         private StringBuilder WriteLineInCsvStringBuilder(StringBuilder csv, String columnOne, String columnTwo, 
