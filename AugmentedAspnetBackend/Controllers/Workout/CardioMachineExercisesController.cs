@@ -38,7 +38,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         // GET: api/CardioMachineExercises
         public IQueryable<CardioMachineExercise> GetCardioMachineExercises()
         {
-            return db.CardioMachineExercises.OrderBy(c => c.StartTime);
+            return db.CardioMachineExercises.OrderByDescending(c => c.StartTime);
         }
 
         // GET: api/CardioMachineExercises?startDate=mmDDyyyy&endDate=mmDDyyy
