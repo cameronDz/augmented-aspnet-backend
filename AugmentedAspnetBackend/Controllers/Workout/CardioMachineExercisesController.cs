@@ -63,8 +63,6 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return Ok(cardioMachineExercise);
         }
 
-
-
         // PUT: api/CardioMachineExercises/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCardioMachineExercise(int id, CardioMachineExercise cardioMachineExercise)
@@ -73,12 +71,10 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 return BadRequest(ModelState);
             }
-
             if (id != cardioMachineExercise.CardioMachineExerciseId)
             {
                 return BadRequest();
             }
-
             db.Entry(cardioMachineExercise).State = EntityState.Modified;
 
             try
@@ -96,7 +92,6 @@ namespace AugmentedAspnetBackend.Controllers.Workout
                     throw;
                 }
             }
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -110,7 +105,6 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             }
             db.CardioMachineExercises.Add(cardioMachineExercise);
             db.SaveChanges();
-
             return CreatedAtRoute("DefaultApi", new { id = cardioMachineExercise.CardioMachineExerciseId }, cardioMachineExercise);
         }
 
@@ -123,10 +117,8 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 return NotFound();
             }
-
             db.CardioMachineExercises.Remove(cardioMachineExercise);
             db.SaveChanges();
-
             return Ok(cardioMachineExercise);
         }
 
@@ -141,7 +133,6 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 FileName = fileName
             };
-
             return result;
         }
 
@@ -149,40 +140,54 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         {
             StringBuilder csv = new StringBuilder();
             IEnumerable<CardioMachineExercise> list = db.CardioMachineExercises.OrderBy(c => c.StartTime);
-            csv = WriteLineInCsvStringBuilder(csv,
-                    "Id",
-                    "Machine Type",
-                    "Start Time",
-                    "Duration Seconds",
-                    "Distance Miles",
-                    "User Name",
-                    "Comment");
+            List<String> titles = new List<String>( new String[] { "Id", "Machine Type", "Start Time", "Duration Seconds", "Distance Miles", "User Name", "Comment" } );
+            csv = WriteLineInCsvStringBuilder(csv, titles);
             foreach (CardioMachineExercise row in list)
             {
-                WriteLineInCsvStringBuilder(csv,
-                    row.CardioMachineExerciseId.ToString(),
-                    row.MachineType,
-                    row.StartTime.ToString(),
-                    row.DurationSeconds.ToString(),
-                    row.DistanceMiles.ToString(),
-                    row.UserName,
-                    row.Comment);
+                List<String> columns = new List<String>();
+                columns.Add(escapeCommasOrQuotesForCsv(row.CardioMachineExerciseId.ToString()));
+                columns.Add(escapeCommasOrQuotesForCsv(row.MachineType));
+                columns.Add(escapeCommasOrQuotesForCsv(row.StartTime.ToString()));
+                columns.Add(escapeCommasOrQuotesForCsv(row.DurationSeconds.ToString()));
+                columns.Add(escapeCommasOrQuotesForCsv(row.DistanceMiles.ToString()));
+                columns.Add(escapeCommasOrQuotesForCsv(row.UserName));
+                columns.Add(escapeCommasOrQuotesForCsv(row.Comment));
+                WriteLineInCsvStringBuilder(csv, columns);
             }
             return csv.ToString();
         }
 
-        private StringBuilder WriteLineInCsvStringBuilder(StringBuilder csv, String columnOne, String columnTwo, 
-            String columnThree, String columnFour, String columnFive, String columnSix, String columnSeven)
+        private StringBuilder WriteLineInCsvStringBuilder(StringBuilder csv, List<String> columns)
         {
-            csv.Append(columnOne).Append(',');
-            csv.Append(columnTwo).Append(',');
-            csv.Append(columnThree).Append(',');
-            csv.Append(columnFour).Append(',');
-            csv.Append(columnFive).Append(',');
-            csv.Append(columnSix).Append(',');
-            csv.Append(columnSeven).Append(',');
+            foreach(String column in columns)
+            {
+                csv.Append(column).Append(',');
+            }
             csv.AppendLine();
             return csv;
+        }
+
+        private String escapeCommasOrQuotesForCsv(String s)
+        {
+            String ret = s;
+            if(s.Contains("'") || s.Contains('"'))
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"");
+                if (s.Contains('"'))
+                {
+                    foreach(char c in s.ToCharArray())
+                    {
+                        if(c.Equals("\""))
+                        {
+                            sb.Append(c);
+                        }
+                        sb.Append(c);
+                    }
+                }
+                sb.Append("\"");
+            }
+            return s;
         }
 
         private String CsvCardioMachineExerciseFileName()
