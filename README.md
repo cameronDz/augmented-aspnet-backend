@@ -2,7 +2,7 @@
 
 An ASP.NET API microservice using Code First Entity Framework.
 
-![build](https://img.shields.io/badge/build-failing-red.svg)
+![build](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![coverage](https://img.shields.io/badge/code%20coverage-0.0%25-red.svg)
 
 ## Getting Started
