@@ -179,24 +179,22 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         private String escapeCommasOrQuotesForCsv(String s)
         {
             String ret = s;
-            if(s.Contains("'") || s.Contains("\""))
+            if(s != null)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("\"");
-                if (s.Contains("\""))
+                foreach(char c in s.ToCharArray())
                 {
-                    foreach(char c in s.ToCharArray())
+                    if(c.Equals("\""))
                     {
-                        if(c.Equals("\""))
-                        {
-                            sb.Append(c);
-                        }
                         sb.Append(c);
                     }
+                    sb.Append(c);
                 }
                 sb.Append("\"");
+                ret = sb.ToString();
             }
-            return s;
+            return ret;
         }
 
         private String CsvCardioMachineExerciseFileName()
