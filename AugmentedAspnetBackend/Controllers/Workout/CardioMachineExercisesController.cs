@@ -24,7 +24,16 @@ namespace AugmentedAspnetBackend.Controllers.Workout
 {
     public class CardioMachineExercisesController : ApiController
     {
-        private WorkoutContext db = new WorkoutContext();
+        private WorkoutContext context;
+
+        public CardioMachineExercisesController()
+        {
+            context = new WorkoutContext();
+        }
+        public CardioMachineExercisesController(WorkoutContext context)
+        {
+            this.context = context;
+        }
 
         [HttpOptions]
         [ResponseType(typeof(void))]
@@ -38,7 +47,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         // GET: api/CardioMachineExercises
         public IQueryable<CardioMachineExercise> GetCardioMachineExercises()
         {
-            return db.CardioMachineExercises.OrderByDescending(c => c.StartTime);
+            return context.CardioMachineExercises.OrderByDescending(c => c.StartTime);
         }
 
         // GET: api/CardioMachineExercises?startDate=mmDDyyyy&endDate=mmDDyyy
@@ -48,14 +57,14 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             String format = "MMddyyyy";
             DateTime startTime = DateTime.ParseExact(startDate, format, provider);
             DateTime endTime = DateTime.ParseExact(endDate, format, provider);
-            return db.CardioMachineExercises.Where(c => c.StartTime >= startTime && c.StartTime <= endTime).OrderBy(c => c.StartTime);
+            return context.CardioMachineExercises.Where(c => c.StartTime >= startTime && c.StartTime <= endTime).OrderBy(c => c.StartTime);
         }
 
         // GET: api/CardioMachineExercises/5
         [ResponseType(typeof(CardioMachineExercise))]
         public IHttpActionResult GetCardioMachineExercise(int id)
         {
-            CardioMachineExercise cardioMachineExercise = db.CardioMachineExercises.Find(id);
+            CardioMachineExercise cardioMachineExercise = context.CardioMachineExercises.Find(id);
             if (cardioMachineExercise == null)
             {
                 return NotFound();
@@ -75,11 +84,11 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 return BadRequest();
             }
-            db.Entry(cardioMachineExercise).State = EntityState.Modified;
+            context.Entry(cardioMachineExercise).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -103,8 +112,8 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             {
                 return BadRequest(ModelState);
             }
-            db.CardioMachineExercises.Add(cardioMachineExercise);
-            db.SaveChanges();
+            context.CardioMachineExercises.Add(cardioMachineExercise);
+            context.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = cardioMachineExercise.CardioMachineExerciseId }, cardioMachineExercise);
         }
 
@@ -112,20 +121,21 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         [ResponseType(typeof(CardioMachineExercise))]
         public IHttpActionResult DeleteCardioMachineExercise(int id)
         {
-            CardioMachineExercise cardioMachineExercise = db.CardioMachineExercises.Find(id);
+            CardioMachineExercise cardioMachineExercise = context.CardioMachineExercises.Find(id);
             if (cardioMachineExercise == null)
             {
                 return NotFound();
             }
-            db.CardioMachineExercises.Remove(cardioMachineExercise);
-            db.SaveChanges();
+            context.CardioMachineExercises.Remove(cardioMachineExercise);
+            context.SaveChanges();
             return Ok(cardioMachineExercise);
         }
 
         [HttpGet]
         public HttpResponseMessage DownloadCardioMachineExercieCsv(String csv)
         {
-            var csvString = FullCardioMachineExerciseListCsv();
+            IEnumerable<CardioMachineExercise> list = context.CardioMachineExercises.OrderBy(c => c.StartTime);
+            var csvString = FullCardioMachineExerciseListCsv(list);
             String fileName = CsvCardioMachineExerciseFileName();
             var result = Request.CreateResponse(HttpStatusCode.OK);
             result.Content = new StringContent(csvString, Encoding.UTF8, "text/csv");
@@ -136,10 +146,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return result;
         }
 
-        private string FullCardioMachineExerciseListCsv()
+        protected string FullCardioMachineExerciseListCsv(IEnumerable<CardioMachineExercise> list)
         {
             StringBuilder csv = new StringBuilder();
-            IEnumerable<CardioMachineExercise> list = db.CardioMachineExercises.OrderBy(c => c.StartTime);
             List<String> titles = new List<String>( new String[] { "Id", "Machine Type", "Start Time", "Duration Seconds", "Distance Miles", "User Name", "Comment" } );
             csv = WriteLineInCsvStringBuilder(csv, titles);
             foreach (CardioMachineExercise row in list)
@@ -170,11 +179,11 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         private String escapeCommasOrQuotesForCsv(String s)
         {
             String ret = s;
-            if(s.Contains("'") || s.Contains('"'))
+            if(s.Contains("'") || s.Contains("\""))
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("\"");
-                if (s.Contains('"'))
+                if (s.Contains("\""))
                 {
                     foreach(char c in s.ToCharArray())
                     {
@@ -199,14 +208,14 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         {
             if (disposing)
             {
-                db.Dispose();
+                context.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool CardioMachineExerciseExists(int id)
         {
-            return db.CardioMachineExercises.Count(e => e.CardioMachineExerciseId == id) > 0;
+            return context.CardioMachineExercises.Count(e => e.CardioMachineExerciseId == id) > 0;
         }
     }
 }
