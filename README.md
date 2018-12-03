@@ -2,6 +2,9 @@
 
 An ASP.NET API microservice using Code First Entity Framework.
 
+![build](https://img.shields.io/badge/build-failing-red.svg)
+![coverage](https://img.shields.io/badge/code%20coverage-0.0%25-red.svg)
+
 ## Getting Started
 
 Project needs to have Entity Framework installed through Visual Studios Nuget Manager.
