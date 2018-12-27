@@ -4,6 +4,9 @@
 # Publishing Profile
 AugmentedAspnetBackend/Properties/PublishProfiles/
 
+# AxoCover specific
+.axoCover/
+
 # User-specific files
 *.suo
 *.user

@@ -3,7 +3,7 @@
 An ASP.NET API microservice using Code First Entity Framework.
 
 ![build](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![coverage](https://img.shields.io/badge/code%20coverage-0.0%25-red.svg)
+![coverage](https://img.shields.io/badge/code%20coverage-2.48%25-red.svg)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ The [Project section of the repository](https://github.com/cameronDz/augmented-a
 
 ## Running the tests
 
-Unit tests have yet to be developed.
+Uses [AxoCover](https://marketplace.visualstudio.com/items?itemName=axodox1.AxoCover&showQnADialog=true) plugin to get Unit test coverage reports.
 
 ## Deployment
 
