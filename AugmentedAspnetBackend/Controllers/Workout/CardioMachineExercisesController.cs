@@ -15,6 +15,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Mvc;
 using AugmentedAspnetBackend.DAL;
+using AugmentedAspnetBackend.Models;
 using AugmentedAspnetBackend.Models.Workout;
 using ActionNameAttribute = System.Web.Http.ActionNameAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
@@ -44,20 +45,33 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return Ok();
         }
 
-        // GET: api/CardioMachineExercises
-        public IQueryable<CardioMachineExercise> GetCardioMachineExercises()
+        // GET: api/CardioMachineExercises?pageNumber=##&pageSize=##
+        [HttpGet] 
+        public IQueryable<CardioMachineExercise> GetCardioMachineExercises([FromUri]PagingParameterModel pagingParameterModel)
         {
-            return context.CardioMachineExercises.OrderByDescending(c => c.StartTime);
-        }
+            var source = context.CardioMachineExercises.OrderByDescending(c => c.StartTime);
+            if (pagingParameterModel.PageNumber == 0 && pagingParameterModel.PageSize == 0)
+            {
+                return source;
+            } 
+            // Get's No of Rows Count   
+            int count = source.Count();
 
-        // GET: api/CardioMachineExercises?startDate=mmDDyyyy&endDate=mmDDyyy
-        public IQueryable<CardioMachineExercise> GetCardioMachineExercises([FromUri]String startDate, [FromUri]String endDate)
-        {
-            CultureInfo provider = CultureInfo.InvariantCulture;
-            String format = "MMddyyyy";
-            DateTime startTime = DateTime.ParseExact(startDate, format, provider);
-            DateTime endTime = DateTime.ParseExact(endDate, format, provider);
-            return context.CardioMachineExercises.Where(c => c.StartTime >= startTime && c.StartTime <= endTime).OrderBy(c => c.StartTime);
+            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
+            int CurrentPage = pagingParameterModel.PageNumber;
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
+            int PageSize = pagingParameterModel.PageSize;
+
+            // Display TotalCount to Records to User  
+            int TotalCount = count;
+
+            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
+            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+
+            // Returns List of Customer after applying Paging   
+            var items = source.Skip((CurrentPage - 1) * PageSize).Take(PageSize);
+            return  items;
         }
 
         // GET: api/CardioMachineExercises/5
