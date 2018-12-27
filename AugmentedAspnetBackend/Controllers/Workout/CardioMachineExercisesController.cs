@@ -156,7 +156,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return result;
         }
 
-        protected string FullCardioMachineExerciseListCsv(IEnumerable<CardioMachineExercise> list)
+        public string FullCardioMachineExerciseListCsv(IEnumerable<CardioMachineExercise> list)
         {
             StringBuilder csv = new StringBuilder();
             List<string> titles = new List<string>( new string[] { "Id", "Machine Type", "Start Time", "Duration Seconds", "Distance Miles", "User Name", "Comment" } );
