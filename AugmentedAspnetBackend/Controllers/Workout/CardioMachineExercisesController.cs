@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,11 +11,9 @@ using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Mvc;
 using AugmentedAspnetBackend.DAL;
 using AugmentedAspnetBackend.Models;
 using AugmentedAspnetBackend.Models.Workout;
-using ActionNameAttribute = System.Web.Http.ActionNameAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpOptionsAttribute = System.Web.Http.HttpOptionsAttribute;
 
@@ -146,11 +142,11 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         [HttpGet]
-        public HttpResponseMessage DownloadCardioMachineExercieCsv(String csv)
+        public HttpResponseMessage DownloadCardioMachineExercieCsv(string csv)
         {
             IEnumerable<CardioMachineExercise> list = context.CardioMachineExercises.OrderBy(c => c.StartTime);
             var csvString = FullCardioMachineExerciseListCsv(list);
-            String fileName = CsvCardioMachineExerciseFileName();
+            string fileName = CsvCardioMachineExerciseFileName();
             var result = Request.CreateResponse(HttpStatusCode.OK);
             result.Content = new StringContent(csvString, Encoding.UTF8, "text/csv");
             result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
@@ -163,26 +159,28 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         protected string FullCardioMachineExerciseListCsv(IEnumerable<CardioMachineExercise> list)
         {
             StringBuilder csv = new StringBuilder();
-            List<String> titles = new List<String>( new String[] { "Id", "Machine Type", "Start Time", "Duration Seconds", "Distance Miles", "User Name", "Comment" } );
+            List<string> titles = new List<string>( new string[] { "Id", "Machine Type", "Start Time", "Duration Seconds", "Distance Miles", "User Name", "Comment" } );
             csv = WriteLineInCsvStringBuilder(csv, titles);
             foreach (CardioMachineExercise row in list)
             {
-                List<String> columns = new List<String>();
-                columns.Add(escapeCommasOrQuotesForCsv(row.CardioMachineExerciseId.ToString()));
-                columns.Add(escapeCommasOrQuotesForCsv(row.MachineType));
-                columns.Add(escapeCommasOrQuotesForCsv(row.StartTime.ToString()));
-                columns.Add(escapeCommasOrQuotesForCsv(row.DurationSeconds.ToString()));
-                columns.Add(escapeCommasOrQuotesForCsv(row.DistanceMiles.ToString()));
-                columns.Add(escapeCommasOrQuotesForCsv(row.UserName));
-                columns.Add(escapeCommasOrQuotesForCsv(row.Comment));
+                List<string> columns = new List<string>
+                {
+                    EscapeCommasOrQuotesForCsv(row.CardioMachineExerciseId.ToString()),
+                    EscapeCommasOrQuotesForCsv(row.MachineType),
+                    EscapeCommasOrQuotesForCsv(row.StartTime.ToString()),
+                    EscapeCommasOrQuotesForCsv(row.DurationSeconds.ToString()),
+                    EscapeCommasOrQuotesForCsv(row.DistanceMiles.ToString()),
+                    EscapeCommasOrQuotesForCsv(row.UserName),
+                    EscapeCommasOrQuotesForCsv(row.Comment)
+                };
                 WriteLineInCsvStringBuilder(csv, columns);
             }
             return csv.ToString();
         }
 
-        private StringBuilder WriteLineInCsvStringBuilder(StringBuilder csv, List<String> columns)
+        private StringBuilder WriteLineInCsvStringBuilder(StringBuilder csv, List<string> columns)
         {
-            foreach(String column in columns)
+            foreach(string column in columns)
             {
                 csv.Append(column).Append(',');
             }
@@ -190,9 +188,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return csv;
         }
 
-        private String escapeCommasOrQuotesForCsv(String s)
+        private string EscapeCommasOrQuotesForCsv(string s)
         {
-            String ret = s;
+            string ret = s;
             if(s != null)
             {
                 StringBuilder sb = new StringBuilder();
@@ -211,7 +209,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return ret;
         }
 
-        private String CsvCardioMachineExerciseFileName()
+        private string CsvCardioMachineExerciseFileName()
         {
             return "cardioMachineExercise-" + DateTime.Now.ToUniversalTime() + "-GMT.csv";
         }
