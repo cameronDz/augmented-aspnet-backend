@@ -13,7 +13,9 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AugmentedAspnetBackend.DAL;
 using AugmentedAspnetBackend.Models;
+using AugmentedAspnetBackend.Models.ApiHelpers;
 using AugmentedAspnetBackend.Models.Workout;
+using AugmentedAspnetBackend.Properties;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpOptionsAttribute = System.Web.Http.HttpOptionsAttribute;
 
@@ -42,32 +44,35 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // GET: api/CardioMachineExercises?pageNumber=##&pageSize=##
-        [HttpGet] 
-        public IQueryable<CardioMachineExercise> GetCardioMachineExercises([FromUri]PagingParameterModel pagingParameterModel)
+        [HttpGet]
+        public HttpResponseMessage GetCardioMachineExercises([FromUri]PagingParameterModel pagingParameterModel)
         {
-            var source = context.CardioMachineExercises.OrderByDescending(c => c.StartTime);
-            if (pagingParameterModel.PageNumber == 0 && pagingParameterModel.PageSize == 0)
+            if (pagingParameterModel.PageNumber < 1 || pagingParameterModel.PageSize < 1)
             {
-                return source;
-            } 
-            // Get's No of Rows Count   
-            int count = source.Count();
+                throw new HttpResponseException(HttpStatusCode.PreconditionFailed);
+            }
+            var source = context.CardioMachineExercises.OrderByDescending(c => c.StartTime);
 
-            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
-            int CurrentPage = pagingParameterModel.PageNumber;
+            // Get's No of Rows Count; throw exception if not content 
+            int totalRecords = source.Count();
+            if (totalRecords == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
 
-            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
-            int PageSize = pagingParameterModel.PageSize;
-
-            // Display TotalCount to Records to User  
-            int TotalCount = count;
-
-            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
-            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-
+            // get page size and count info
+            int pageSize = pagingParameterModel.PageSize;
+            int currentPage = pagingParameterModel.PageNumber;
+            int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+            
             // Returns List of Customer after applying Paging   
-            var items = source.Skip((CurrentPage - 1) * PageSize).Take(PageSize);
-            return  items;
+            var items = source.Skip((currentPage - 1) * pageSize).Take(pageSize);
+            var links = CreateLinks(pagingParameterModel, totalPages);
+            var metaData = new ApiMetaDataModel() { _totalRecords = totalRecords, _totalPages = totalPages };
+
+            var payload = new ApiResponseModel() { Data = items, Meta = metaData, Links = links };
+            var response = Request.CreateResponse(HttpStatusCode.OK, payload);
+            return response;
         }
 
         // GET: api/CardioMachineExercises/5
@@ -212,6 +217,20 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         private string CsvCardioMachineExerciseFileName()
         {
             return "cardioMachineExercise-" + DateTime.Now.ToUniversalTime() + "-GMT.csv";
+        }
+
+        protected ApiLinksModel CreateLinks(PagingParameterModel pagingParameterModel, int totalPages)
+        {
+            string baseUrl = Settings.Default.BaseHttp + "v" + Settings.Default.Version + "/api/CardioMachineExercises?pageSize=" + pagingParameterModel.PageSize + "&pageNumber=";
+            var links = new ApiLinksModel
+            {
+                Self = baseUrl + pagingParameterModel.PageNumber,
+                First = baseUrl + 1,
+                Last = baseUrl + totalPages,
+                Prev = baseUrl + (pagingParameterModel.PageNumber == 1 ? 1 : pagingParameterModel.PageNumber - 1),
+                Next = baseUrl + (pagingParameterModel.PageNumber == totalPages ? totalPages : pagingParameterModel.PageNumber + 1)
+            };
+            return links;
         }
 
         protected override void Dispose(bool disposing)

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AugmentedAspnetBackend.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Version" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">0.4</Value>
+    </Setting>
+    <Setting Name="BaseHttp" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://augmentedaspnetbackend.azurewebsites.net/v</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

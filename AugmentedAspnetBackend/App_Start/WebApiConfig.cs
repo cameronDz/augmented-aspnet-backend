@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AugmentedAspnetBackend.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -17,7 +18,7 @@ namespace AugmentedAspnetBackend
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "v0.3/api/{controller}/{id}",
+                routeTemplate: "v" + Settings.Default.Version + "/api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }
