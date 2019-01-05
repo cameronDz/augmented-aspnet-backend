@@ -9,5 +9,6 @@ namespace AugmentedAspnetBackend.Models.ApiHelpers
     {
         public int _totalRecords { get; set; }
         public int _totalPages { get; set; }
+        public int _currentPage { get; set; }
     }
 }

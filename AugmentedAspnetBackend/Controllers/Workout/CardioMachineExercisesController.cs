@@ -68,7 +68,12 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             // Returns List of Customer after applying Paging   
             var items = source.Skip((currentPage - 1) * pageSize).Take(pageSize);
             var links = CreateLinks(pagingParameterModel, totalPages);
-            var metaData = new ApiMetaDataModel() { _totalRecords = totalRecords, _totalPages = totalPages };
+            var metaData = new ApiMetaDataModel()
+            {
+                _totalRecords = totalRecords,
+                _totalPages = totalPages,
+                _currentPage = currentPage
+            };
 
             var payload = new ApiResponseModel() { Data = items, Meta = metaData, Links = links };
             var response = Request.CreateResponse(HttpStatusCode.OK, payload);
