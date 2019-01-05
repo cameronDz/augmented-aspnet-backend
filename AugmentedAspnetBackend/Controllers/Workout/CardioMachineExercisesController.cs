@@ -226,7 +226,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
 
         protected ApiLinksModel CreateLinks(PagingParameterModel pagingParameterModel, int totalPages)
         {
-            string baseUrl = Settings.Default.BaseHttp + "v" + Settings.Default.Version + "/api/CardioMachineExercises?pageSize=" + pagingParameterModel.PageSize + "&pageNumber=";
+            string baseUrl = Settings.Default.BaseHttp + Settings.Default.Version + "/api/CardioMachineExercises?pageSize=" + pagingParameterModel.PageSize + "&pageNumber=";
             var links = new ApiLinksModel
             {
                 Self = baseUrl + pagingParameterModel.PageNumber,
