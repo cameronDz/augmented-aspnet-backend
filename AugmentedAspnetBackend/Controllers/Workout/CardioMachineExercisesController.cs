@@ -37,14 +37,12 @@ namespace AugmentedAspnetBackend.Controllers.Workout
 
         [HttpOptions]
         [ResponseType(typeof(void))]
-        public IHttpActionResult OptionsExercises()
+        public HttpResponseMessage OptionsExercises()
         {
-            System.Diagnostics.Trace.TraceInformation("OptionsExercises - Start");
-            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "Content-Type");
-            System.Diagnostics.Trace.TraceInformation("OptionsExercises - After setting Headers"); 
-            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-            System.Diagnostics.Trace.TraceInformation("OptionsExercises - After setting Methods");
-            return Ok();
+            HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
+            message.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+            message.Headers.Add("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+            return message;
         }
 
         // GET: api/CardioMachineExercises?pageNumber=##&pageSize=##
