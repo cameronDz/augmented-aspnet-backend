@@ -39,8 +39,11 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         [ResponseType(typeof(void))]
         public IHttpActionResult OptionsExercises()
         {
+            System.Diagnostics.Trace.TraceInformation("OptionsExercises - Start");
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "Content-Type");
+            System.Diagnostics.Trace.TraceInformation("OptionsExercises - After setting Headers"); 
             HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+            System.Diagnostics.Trace.TraceInformation("OptionsExercises - After setting Methods");
             return Ok();
         }
 
