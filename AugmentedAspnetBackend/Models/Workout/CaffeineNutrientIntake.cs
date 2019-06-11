@@ -8,7 +8,7 @@ namespace AugmentedAspnetBackend.Models.Workout
     public class CaffeineNutrientIntake
     {
         [Key]
-        [Display(Name = "Cardio Machine Exercise Id")]
+        [Display(Name = "Caffeine Nutrient Intake Id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CaffeineNutrientIntakeId { get; set; }
         [Display(Name = "Amount Type")]
