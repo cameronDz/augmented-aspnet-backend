@@ -209,6 +209,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SessionViewModelController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\Workout\CaffeineNutrientIntakesController.cs" />
     <Compile Include="Controllers\Workout\CardioMachineExercisesController.cs" />
     <Compile Include="Controllers\Workout\ExercisesController.cs" />
     <Compile Include="Controllers\Workout\ExerciseTypesController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Models\ApiHelpers\ApiMetaDataModel.cs" />
     <Compile Include="Models\ApiHelpers\ApiResponseModel.cs" />
     <Compile Include="Models\PagingParameterModel.cs" />
+    <Compile Include="Models\Workout\CaffeineNutrientIntake.cs" />
     <Compile Include="Models\Workout\CardioMachineExercise.cs" />
     <Compile Include="Models\Workout\ExerciseType.cs" />
     <Compile Include="Models\Workout\Routine.cs" />
@@ -305,6 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Nutrient\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
