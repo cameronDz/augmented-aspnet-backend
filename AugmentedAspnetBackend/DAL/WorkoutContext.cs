@@ -23,6 +23,7 @@ namespace AugmentedAspnetBackend.DAL
         public DbSet<RoutineSet> RoutineSets { get; set; }
 
         public DbSet<CardioMachineExercise> CardioMachineExercises { get; set; }
+        public DbSet<CaffeineNutrientIntake> CaffeineNutrientIntakes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
