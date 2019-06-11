@@ -40,7 +40,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         [HttpGet]
         public HttpResponseMessage GetCaffeineNutrientIntake()
         {
-            var source = context.CaffeineNutrientIntake.OrderByDescending(c => c.IntakeTime);
+            var source = context.CaffeineNutrientIntakes.OrderByDescending(c => c.IntakeTime);
             var metaData = new ApiMetaDataModel() { _totalRecords = source.Count(),  _totalPages = 1, _currentPage = 1 };
             var payload = new ApiResponseModel() { Data = source, Meta = metaData, Links = null };
             var response = Request.CreateResponse(HttpStatusCode.OK, payload);
@@ -56,7 +56,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
                 return BadRequest(ModelState);
             }
 
-            context.CaffeineNutrientIntake.Add(caffeineNutrientIntake);
+            context.CaffeineNutrientIntakes.Add(caffeineNutrientIntake);
             context.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = caffeineNutrientIntake.CaffeineNutrientIntakeId }, caffeineNutrientIntake);
         }
@@ -65,13 +65,13 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         [ResponseType(typeof(CaffeineNutrientIntake))]
         public IHttpActionResult DeleteCaffeineNutrientIntake(int id)
         {
-            CaffeineNutrientIntake caffeineNutrientIntake = context.CaffeineNutrientIntake.Find(id);
+            CaffeineNutrientIntake caffeineNutrientIntake = context.CaffeineNutrientIntakes.Find(id);
             if (caffeineNutrientIntake == null)
             {
                 return NotFound();
             }
 
-            context.CaffeineNutrientIntake.Remove(caffeineNutrientIntake);
+            context.CaffeineNutrientIntakes.Remove(caffeineNutrientIntake);
             context.SaveChanges();
 
             return Ok(caffeineNutrientIntake);
@@ -88,7 +88,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
 
         private bool CaffeineNutrientIntakeExists(int id)
         {
-            return context.CaffeineNutrientIntake.Count(e => e.CaffeineNutrientIntakeId == id) > 0;
+            return context.CaffeineNutrientIntakes.Count(e => e.CaffeineNutrientIntakeId == id) > 0;
         }
     }
 }
