@@ -20,11 +20,11 @@ using AugmentedAspnetBackend.Properties;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpOptionsAttribute = System.Web.Http.HttpOptionsAttribute;
 
-/// <summary>
-/// API used to track various Cardio Machine workouts
-/// </summary>
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
+    /// <summary>
+    /// Used to track various Cardio Exercise Machine workouts
+    /// </summary>
     public class CardioMachineExercisesController : ApiController
     {
         private WorkoutContext context;
@@ -52,6 +52,11 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // GET: api/CardioMachineExercises?pageNumber=##&pageSize=##
+        /// <summary>
+        /// Returns a list of most recent Cardio Machine Exercise objects. Will fetch all if no parameters are
+        /// provided, or supports pagination using; "pageNumber" and "pageSize" in the query string to return
+        /// paginated list.
+        /// </summary>
         [HttpGet]
         public HttpResponseMessage GetCardioMachineExercises([FromUri]PagingParameterModel pagingParameterModel)
         {
@@ -61,7 +66,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             }
             var source = context.CardioMachineExercises.OrderByDescending(c => c.StartTime);
 
-            // Get's No of Rows Count; throw exception if not content 
+            // Get's No of Rows Count; throw exception if not content
             int totalRecords = source.Count();
             if (totalRecords == 0)
             {
@@ -72,8 +77,8 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             int pageSize = pagingParameterModel.PageSize;
             int currentPage = pagingParameterModel.PageNumber;
             int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
-            
-            // Returns List of Customer after applying Paging   
+
+            // Returns List of Customer after applying Paging
             var items = source.Skip((currentPage - 1) * pageSize).Take(pageSize);
             var links = CreateLinks(pagingParameterModel, totalPages);
             var metaData = new ApiMetaDataModel()
@@ -89,6 +94,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // GET: api/CardioMachineExercises/5
+        /// <summary>
+        /// Returns a specific Cardio Machine Exercise record based on the index in the URL.
+        /// </summary>
         [ResponseType(typeof(CardioMachineExercise))]
         public IHttpActionResult GetCardioMachineExercise(int id)
         {
@@ -101,6 +109,11 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // PUT: api/CardioMachineExercises/5
+
+        /// <summary>
+        /// Updates a specific Cardio Machine Exercise record based on the index in the URL and the payload of the body
+        /// of the request.
+        /// </summary>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCardioMachineExercise(int id, CardioMachineExercise cardioMachineExercise)
         {
@@ -133,6 +146,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // POST: api/CardioMachineExercises
+        /// <summary>
+        /// Create a new Cardio Machine Exercise record based on the payload in the body of the request.
+        /// </summary>
         [ResponseType(typeof(CardioMachineExercise))]
         public IHttpActionResult PostCardioMachineExercise([FromBody]CardioMachineExercise cardioMachineExercise)
         {
@@ -146,6 +162,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // DELETE: api/CardioMachineExercises/5
+        /// <summary>
+        /// Delete a specific Cardio Machine Exercise record based on the index in the URL.
+        /// </summary>
         [ResponseType(typeof(CardioMachineExercise))]
         public IHttpActionResult DeleteCardioMachineExercise(int id)
         {
@@ -159,6 +178,10 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             return Ok(cardioMachineExercise);
         }
 
+
+        /// <summary>
+        /// Get a .csv file of all the Cardio Machine Exercise records in the database.
+        /// </summary>
         [HttpGet]
         public HttpResponseMessage DownloadCardioMachineExercieCsv(string csv)
         {
