@@ -20,6 +20,9 @@ using AugmentedAspnetBackend.Properties;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpOptionsAttribute = System.Web.Http.HttpOptionsAttribute;
 
+/// <summary>
+/// API used to track various Cardio Machine workouts
+/// </summary>
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
     public class CardioMachineExercisesController : ApiController
@@ -35,6 +38,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             this.context = context;
         }
 
+        /// <summary>
+        /// Give list of Access Control Headers and Methods allowed by the API
+        /// </summary>
         [HttpOptions]
         [ResponseType(typeof(void))]
         public HttpResponseMessage OptionsExercises()
