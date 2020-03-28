@@ -109,7 +109,6 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // PUT: api/CardioMachineExercises/5
-
         /// <summary>
         /// Updates a specific Cardio Machine Exercise record based on the index in the URL and the payload of the body
         /// of the request.
