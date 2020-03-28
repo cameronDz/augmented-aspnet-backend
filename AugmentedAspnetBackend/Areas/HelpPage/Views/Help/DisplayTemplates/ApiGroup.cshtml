@@ -6,9 +6,9 @@
 @model IGrouping<HttpControllerDescriptor, ApiDescription>
 
 @{
-    var controllerDocumentation = ViewBag.DocumentationProvider != null ? 
-        ViewBag.DocumentationProvider.GetDocumentation(Model.Key) : 
-        null;
+    var controllerDocumentation = ViewBag.DocumentationProvider != null
+        ? ViewBag.DocumentationProvider.GetDocumentation(Model.Key)
+        : null;
 }
 
 <h2 id="@Model.Key.ControllerName">@Model.Key.ControllerName</h2>

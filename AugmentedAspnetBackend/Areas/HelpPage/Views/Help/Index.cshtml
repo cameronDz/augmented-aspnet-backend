@@ -32,7 +32,10 @@
     <section class="content-wrapper main-content clear-fix">
         @foreach (var group in apiGroups)
         {
-            @Html.DisplayFor(m => group, "ApiGroup")
+            if (@group.Key.ControllerName == "CaffeineNutrientIntakes" || @group.Key.ControllerName == "CardioMachineExercises" || @group.Key.ControllerName == "Exercises")
+            {
+                @Html.DisplayFor(m => group, "ApiGroup")
+            }
         }
     </section>
 </div>
