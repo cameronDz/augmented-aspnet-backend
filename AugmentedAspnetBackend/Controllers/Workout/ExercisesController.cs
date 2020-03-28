@@ -16,10 +16,16 @@ using Newtonsoft.Json.Linq;
 
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
+    /// <summary>
+    /// Used to track exercise names/descriptions
+    /// </summary>
     public class ExercisesController : ApiController
     {
         private WorkoutContext db = new WorkoutContext();
 
+        /// <summary>
+        /// Give list of Access Control Headers and Methods allowed by the API
+        /// </summary>
         [HttpOptions]
         [ResponseType(typeof(void))]
         public IHttpActionResult OptionsExercises()
@@ -30,12 +36,18 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // GET: api/Exercises
+        /// <summary>
+        /// Returns a list of all Exercise objects. (Does Not Support pagination)
+        /// </summary>
         public IQueryable<Exercise> GetExercises()
         {
             return db.Exercises;
         }
 
         // GET: api/Exercises/5
+        /// <summary>
+        /// Returns a specific Exercise record based on the index in the URL.
+        /// </summary>
         [ResponseType(typeof(Exercise))]
         public IHttpActionResult GetExercise(int id)
         {
@@ -49,6 +61,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // PUT: api/Exercises/5
+        /// <summary>
+        /// Updates a specific Exercise record based on the index in URL and the payload in the body of the request.
+        /// </summary>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutExercise(int id, [FromBody]Exercise exercise)
         {
@@ -90,6 +105,10 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // POST: api/Exercises
+        // POST: api/CardioMachineExercises
+        /// <summary>
+        /// Create a new Exercise record based on the payload in the body of the request.
+        /// </summary>
         [ResponseType(typeof(Exercise))]
         public IHttpActionResult PostExercise([FromBody]Exercise exercise)
         {
@@ -111,6 +130,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // DELETE: api/Exercises/5
+        /// <summary>
+        /// Delete a specific Exercise record based on the index in the URL.
+        /// </summary>
         [ResponseType(typeof(Exercise))]
         public IHttpActionResult DeleteExercise(int id)
         {
