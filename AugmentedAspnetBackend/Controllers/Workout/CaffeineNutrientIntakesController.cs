@@ -18,6 +18,9 @@ using AugmentedAspnetBackend.Properties;
 
 namespace AugmentedAspnetBackend.Controllers.Workout
 {
+    /// <summary>
+    /// Used to track caffeine intake amount
+    /// </summary>
     public class CaffeineNutrientIntakesController : ApiController
     {
         private WorkoutContext context;
@@ -30,6 +33,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             this.context = context;
         }
 
+        /// <summary>
+        /// Give list of Access Control Headers and Methods allowed by the API
+        /// </summary>
         [HttpOptions]
         [ResponseType(typeof(void))]
         public HttpResponseMessage OptionsExercises()
@@ -41,6 +47,10 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // GET: api/CaffeineNutrientIntakePages?pageNumber=##&pageSize=##
+        /// <summary>
+        /// Returns a list of most recent Caffeien Intake objects. Will fetch all if no parameters are provided, or
+        /// supports pagination using; "pageNumber" and "pageSize" in the query string to return paginated list.
+        /// </summary>
         [HttpGet]
         public HttpResponseMessage GetPaginatedCaffeineNutrientIntakes([FromUri]PagingParameterModel pagingParameterModel)
         {
@@ -49,7 +59,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
                 throw new HttpResponseException(HttpStatusCode.PreconditionFailed);
             }
             var source = context.CaffeineNutrientIntakes.OrderByDescending(c => c.IntakeTime);
-            // Get's No of Rows Count; throw exception if not content 
+            // Get's No of Rows Count; throw exception if not content
             int totalRecords = source.Count();
             if (totalRecords == 0)
             {
@@ -61,7 +71,7 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             int currentPage = pagingParameterModel.PageNumber;
             int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
 
-            // Returns List of Customer after applying Paging   
+            // Returns List of Customer after applying Paging
             var items = source.Skip((currentPage - 1) * pageSize).Take(pageSize);
             var links = CreateLinks(pagingParameterModel, totalPages);
             var metaData = new ApiMetaDataModel()
@@ -77,6 +87,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // POST: api/CaffeineNutrientIntakes
+        /// <summary>
+        /// Create a new Caffiene Intake record based on the payload in the body of the request.
+        /// </summary>
         [ResponseType(typeof(CaffeineNutrientIntake))]
         public IHttpActionResult PostCaffeineNutrientIntake(CaffeineNutrientIntake caffeineNutrientIntake)
         {
@@ -91,6 +104,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
         }
 
         // DELETE: api/CaffeineNutrientIntakes/5
+        /// <summary>
+        /// Delete a specific Caffiene Intake record based on the index in the URL.
+        /// </summary>
         [ResponseType(typeof(CaffeineNutrientIntake))]
         public IHttpActionResult DeleteCaffeineNutrientIntake(int id)
         {
@@ -115,6 +131,9 @@ namespace AugmentedAspnetBackend.Controllers.Workout
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Get a .csv file of all the Caffiene Intake records in the database.
+        /// </summary>
         [HttpGet]
         public HttpResponseMessage DownloadCaffeineNutrientIntakeCsv(string csv)
         {
