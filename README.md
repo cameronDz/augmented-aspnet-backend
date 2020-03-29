@@ -31,7 +31,18 @@ Uses [AxoCover](https://marketplace.visualstudio.com/items?itemName=axodox1.AxoC
 
 ## Deployment
 
-Once deployed, instructions on how to replicate will be added.
+### Deploying API in Microsoft's Azure cloud
+The following setup is done in Visual Studio 2019. Deploying the application with a database and server, for extended use on F tier under a Pay-as-you-Go subscription, will cost ~$15 a month. It is assumed whoever is going through these steps already has a Azure account connected to their Visual Studio.
+1. Right-click the AugmentedAspnetBackend project and select "Publish"
+1. For Azure App Serivce, select "Create New", then select and press "Create Profile" (you'll be ask to verify your credentials for Azure at this point).
+1. Choose a Location near your region, and select Free tier for hosting plan. Also a good practice to have name for; "**App Name**", "**Resource Group**", and "**Hosting Plan**" should all have the same prefix. Example; "**App Name**": "_**MyAppName**_", "**Resource Group**": "_**MyAppNameResourceGroup**_", "**Hosting Plan**": "_**MyAppNameHostingPlan**_".
+1. Under "Explore additional Azure services", select "Create a SQL Database"
+1. For SQL Server, press "New..."
+1. Set the Admin username and password.
+7. Set the connection string name to match the connection string in the WorkoutContext.cs class.
+1. Press "Create". This may take several minutes.
+1. After the resources are created, a success message should appear in the IDE, with a button to "Publish".
+1. Press "Publish". The first deploy may also take several minutes.
 
 ## Built With
 
